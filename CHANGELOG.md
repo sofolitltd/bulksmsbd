@@ -1,3 +1,7 @@
+## 1.0.3
+
+- Fixed CHANGELOG — now references current version (pub.dev score fix)
+
 ## 1.0.2
 
 - Added table of contents to README

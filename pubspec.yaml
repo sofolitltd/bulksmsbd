@@ -1,6 +1,6 @@
 name: bulksmsbd
 description: A robust, production-ready Dart & Flutter wrapper for the bulksmsbd.net gateway API. Developed and maintained by Sofol IT.
-version: 1.0.2
+version: 1.0.3
 homepage: https://sofolit.vercel.app
 repository: https://github.com/sofolitltd/bulksmsbd
 issue_tracker: https://github.com/sofolitltd/bulksmsbd/issues
