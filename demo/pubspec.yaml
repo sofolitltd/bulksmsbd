@@ -10,10 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_dotenv: ^5.2.1
-  bulksmsbd:
-    git:
-      url: https://github.com/sofolitltd/bulksmsbd.git
-      ref: main
+  bulksmsbd: ^1.0.1
 
 dev_dependencies:
   flutter_test:
