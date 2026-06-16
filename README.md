@@ -2,6 +2,27 @@
 
 A robust, production-ready Dart & Flutter wrapper for the [bulksmsbd.net](https://bulksmsbd.net) SMS gateway API. Developed and maintained by **Sofol IT**.
 
+## Table of Contents
+
+- [Features](#features)
+- [Getting started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Account Setup](#account-setup)
+  - [Installation](#installation)
+- [Usage](#usage)
+  - [Import](#import)
+  - [Initialize client](#initialize-client)
+  - [Send SMS to one or more numbers](#send-sms-to-one-or-more-numbers)
+  - [Send different messages to different numbers](#send-different-messages-to-different-numbers)
+  - [Send OTP](#send-otp)
+  - [Check balance](#check-balance)
+  - [Clean up](#clean-up)
+- [API Reference](#api-reference)
+  - [BulkSmsBd](#bulksmsbd)
+  - [BulkSmsResponse](#bulksmsresponse)
+  - [Response codes](#response-codes)
+- [Additional information](#additional-information)
+
 ## Features
 
 - Send SMS to single or multiple numbers

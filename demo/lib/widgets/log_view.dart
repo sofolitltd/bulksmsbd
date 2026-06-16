@@ -28,17 +28,26 @@ class LogView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller._textCtrl,
-      readOnly: true,
-      maxLines: null,
-      scrollController: controller._scrollCtrl,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-        hintText: 'Responses appear here...',
-        contentPadding: const EdgeInsets.all(12),
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF1E1E2E),
+        borderRadius: BorderRadius.circular(12),
       ),
-      style: const TextStyle(fontFamily: 'monospace', fontSize: 13),
+      padding: const EdgeInsets.all(12),
+      clipBehavior: Clip.antiAlias,
+      child: TextField(
+        controller: controller._textCtrl,
+        readOnly: true,
+        maxLines: null,
+        scrollController: controller._scrollCtrl,
+        decoration: const InputDecoration(
+        fillColor: Colors.transparent,
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.zero,
+          isCollapsed: true,
+        ),
+        style: const TextStyle(fontFamily: 'monospace', fontSize: 12, color: Colors.white, height: 1.5),
+      ),
     );
   }
 }
