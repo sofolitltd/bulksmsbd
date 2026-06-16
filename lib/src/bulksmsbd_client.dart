@@ -3,15 +3,42 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'models.dart';
 
+/// Client for the [bulksmsbd.net](https://bulksmsbd.net) SMS gateway API.
+///
+/// Uses the provided [apiKey] and [senderId] for authentication.
+/// All HTTP requests have a 30-second timeout.
+///
+/// ```dart
+/// final client = BulkSmsBd(
+///   apiKey: 'your_api_key',
+///   senderId: 'your_sender_id',
+/// );
+///
+/// final response = await client.sendSms(
+///   numbers: ['88017XXXXXXXX'],
+///   message: 'Hello',
+/// );
+/// print(response.message);
+///
+/// client.close();
+/// ```
 class BulkSmsBd {
+  /// API key from your bulksmsbd.net account.
   final String apiKey;
+
+  /// Sender ID approved in your bulksmsbd.net account.
   final String senderId;
+
   final http.Client _client;
   bool _isClosed = false;
 
   static const String _baseUrl = 'https://bulksmsbd.net/api';
   static const Duration _timeout = Duration(seconds: 30);
 
+  /// Creates a new API client.
+  ///
+  /// An optional [client] can be injected for testing with a mock HTTP client.
+  /// Throws [ArgumentError] if [apiKey] or [senderId] are empty.
   BulkSmsBd({
     required this.apiKey,
     required this.senderId,
@@ -53,6 +80,9 @@ class BulkSmsBd {
     }
   }
 
+  /// Sends an SMS to one or more [numbers] with the given [message].
+  ///
+  /// [numbers] are joined with commas and sent in a single API request.
   Future<BulkSmsResponse> sendSms({
     required List<String> numbers,
     required String message,
@@ -68,6 +98,9 @@ class BulkSmsBd {
     );
   }
 
+  /// Sends different [messages] to different numbers (bulk SMS).
+  ///
+  /// Each [BulkSmsBulkItem] specifies a recipient and their message.
   Future<BulkSmsResponse> sendBulkSms({
     required List<BulkSmsBulkItem> messages,
   }) {
@@ -82,6 +115,10 @@ class BulkSmsBd {
     );
   }
 
+  /// Sends a branded OTP to [number].
+  ///
+  /// Uses [brandName] in the message template:
+  /// `"Your $brandName OTP is $otp"`.
   Future<BulkSmsResponse> sendOtp({
     required String number,
     required String brandName,
@@ -91,6 +128,10 @@ class BulkSmsBd {
     return sendSms(numbers: [number], message: formattedMessage);
   }
 
+  /// Checks the remaining SMS balance.
+  ///
+  /// Returns the balance string (e.g., `"5000"`) on success, or an error
+  /// message prefixed with `"Error: "` on failure.
   Future<String> getBalance() async {
     try {
       final response =
@@ -114,6 +155,9 @@ class BulkSmsBd {
     }
   }
 
+  /// Releases the underlying HTTP client resources.
+  ///
+  /// Safe to call multiple times — subsequent calls are no-ops.
   void close() {
     if (!_isClosed) {
       _isClosed = true;
