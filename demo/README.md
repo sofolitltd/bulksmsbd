@@ -1,17 +1,45 @@
-# demo
+# BulkSMS BD Demo
 
-Flutter demo app for the bulksmsbd package
+Flutter demo application for the [bulksmsbd](https://pub.dev/packages/bulksmsbd) package.
 
-## Getting Started
+## Prerequisites
 
-This project is a starting point for a Flutter application.
+- An active [bulksmsbd.net](https://bulksmsbd.net) account
+- API key and approved Sender ID from your account dashboard
+- IP whitelisting must be disabled (see Account Setup)
 
-A few resources to get you started if this is your first Flutter project:
+## Account Setup
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+Before using the demo, disable IP whitelisting in your bulksmsbd.net account:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Log in to your [bulksmsbd.net](https://bulksmsbd.net) dashboard
+2. Go to **Phone Book** → **IP White List**
+3. At the top, in **IP White Listing Setting**, toggle to **disabled**
+4. Enter the OTP sent to your registered mobile number
+
+## Environment Configuration
+
+Create a `.env` file in the `demo/` directory (or copy from `.env.example`):
+
+```env
+API_KEY=your_api_key_here
+SENDER_ID=your_sender_id_here
+```
+
+> ⚠️ The `.env` file is gitignored. Never commit real credentials.
+
+## Features
+
+| Page | Description |
+|------|-------------|
+| **Check Balance** | View remaining SMS credit balance |
+| **Send SMS** | Send a message to one or multiple numbers |
+| **Send OTP** | Send a branded OTP to a phone number |
+| **Bulk SMS** | Send different messages to different numbers |
+
+## Run
+
+```bash
+cd demo
+flutter run
+```

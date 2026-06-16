@@ -19,6 +19,16 @@ A robust, production-ready Dart & Flutter wrapper for the [bulksmsbd.net](https:
 - An active [bulksmsbd.net](https://bulksmsbd.net) account
 - API key and approved Sender ID from your account dashboard
 
+### Account Setup
+
+Before using the API, you must disable IP whitelisting in your bulksmsbd.net account:
+
+1. Log in to your [bulksmsbd.net](https://bulksmsbd.net) dashboard
+2. Go to **Phone Book** menu → **IP White List**
+3. At the top, in the **IP White Listing Setting** section, set it to **disabled**
+4. Enter the OTP sent to your registered mobile number
+5. You're now ready to use the API from any IP
+
 ### Installation
 
 Add to your `pubspec.yaml`:

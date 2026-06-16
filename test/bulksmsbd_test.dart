@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 void main() {
   late BulkSmsBd client;
 
-    setUp(() {
+  setUp(() {
     final mockClient = MockClient((request) async {
       if (request.url.path.contains('smsapi') &&
           !request.url.path.contains('many')) {
@@ -63,20 +63,65 @@ void main() {
       expect(res.isSuccess, true);
     });
 
-    test('catches exceptions gracefully', () async {
+    test('catches network exceptions gracefully', () async {
       final failingClient = BulkSmsBd(
         apiKey: 'x',
         senderId: 'x',
         client: MockClient((_) => throw Exception('Network error')),
       );
+      addTearDown(failingClient.close);
       final res = await failingClient.sendSms(
         numbers: ['8801711111111'],
         message: 'Test',
       );
       expect(res.isSuccess, false);
       expect(res.successCode, '1005');
-      expect(res.message, contains('Exception'));
-      failingClient.close();
+      expect(res.message, contains('Request failed'));
+    });
+
+    test('handles empty response body', () async {
+      final emptyClient = BulkSmsBd(
+        apiKey: 'x',
+        senderId: 'x',
+        client: MockClient((_) => Future.value(http.Response('', 200))),
+      );
+      addTearDown(emptyClient.close);
+      final res = await emptyClient.sendSms(
+        numbers: ['8801711111111'],
+        message: 'Test',
+      );
+      expect(res.isSuccess, false);
+      expect(res.message, contains('Empty response'));
+    });
+
+    test('handles malformed JSON', () async {
+      final badJsonClient = BulkSmsBd(
+        apiKey: 'x',
+        senderId: 'x',
+        client: MockClient((_) => Future.value(http.Response('not json', 200))),
+      );
+      addTearDown(badJsonClient.close);
+      final res = await badJsonClient.sendSms(
+        numbers: ['8801711111111'],
+        message: 'Test',
+      );
+      expect(res.isSuccess, false);
+      expect(res.message, contains('Invalid response format'));
+    });
+
+    test('handles non-200 HTTP status', () async {
+      final errorClient = BulkSmsBd(
+        apiKey: 'x',
+        senderId: 'x',
+        client: MockClient((_) => Future.value(http.Response('{}', 500))),
+      );
+      addTearDown(errorClient.close);
+      final res = await errorClient.sendSms(
+        numbers: ['8801711111111'],
+        message: 'Test',
+      );
+      expect(res.isSuccess, false);
+      expect(res.successCode, '1005');
     });
   });
 
@@ -108,15 +153,26 @@ void main() {
       expect(balance, '5000');
     });
 
-    test('returns 0.0 on failure', () async {
+    test('returns error string on HTTP failure', () async {
       final failingClient = BulkSmsBd(
         apiKey: 'x',
         senderId: 'x',
         client: MockClient((_) => Future.value(http.Response('{}', 500))),
       );
+      addTearDown(failingClient.close);
       final balance = await failingClient.getBalance();
-      expect(balance, '0.0');
-      failingClient.close();
+      expect(balance, startsWith('Error:'));
+    });
+
+    test('handles non-map response', () async {
+      final badClient = BulkSmsBd(
+        apiKey: 'x',
+        senderId: 'x',
+        client: MockClient((_) => Future.value(http.Response('"string"', 200))),
+      );
+      addTearDown(badClient.close);
+      final balance = await badClient.getBalance();
+      expect(balance, startsWith('Error:'));
     });
   });
 
@@ -145,6 +201,7 @@ void main() {
               200,
             ))),
       );
+      addTearDown(errorClient.close);
       final res = await errorClient.sendSms(
         numbers: ['8801711111111'],
         message: 'Test',
@@ -152,7 +209,32 @@ void main() {
       expect(res.isSuccess, false);
       expect(res.successCode, '1002');
       expect(res.message, contains('Sender ID not correct'));
-      errorClient.close();
+    });
+
+    test('uses fallback message when only response_code is present', () async {
+      final minimalClient = BulkSmsBd(
+        apiKey: 'x',
+        senderId: 'x',
+        client: MockClient((_) => Future.value(http.Response(
+              '{"response_code": 1032}',
+              200,
+            ))),
+      );
+      addTearDown(minimalClient.close);
+      final res = await minimalClient.sendSms(
+        numbers: ['8801711111111'],
+        message: 'Test',
+      );
+      expect(res.isSuccess, false);
+      expect(res.successCode, '1032');
+      expect(res.message, contains('IP Not whitelisted'));
+    });
+  });
+
+  group('close', () {
+    test('can be called multiple times without throwing', () {
+      client.close();
+      client.close();
     });
   });
 }
