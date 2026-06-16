@@ -1,0 +1,25 @@
+# Dart
+.dart_tool/
+.pub/
+build/
+*.js_
+*.mjs_
+*.dart.js
+
+# Avoid committing pubspec.lock for library packages.
+pubspec.lock
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+*.pem
+
+# Coverage
+coverage/
