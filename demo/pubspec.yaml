@@ -1,0 +1,24 @@
+name: bulksmsbd_demo
+description: Flutter demo app for the bulksmsbd package.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  bulksmsbd:
+    git:
+      url: https://github.com/sofolitltd/bulksmsbd.git
+      ref: main
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
