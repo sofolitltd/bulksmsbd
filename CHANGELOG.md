@@ -1,3 +1,7 @@
+## 1.0.4
+
+- Updated README install example to `^1.0.3`
+
 ## 1.0.3
 
 - Fixed CHANGELOG — now references current version (pub.dev score fix)
