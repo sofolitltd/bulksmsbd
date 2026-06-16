@@ -226,7 +226,16 @@ class _SendSmsPageState extends State<SendSmsPage> {
               label: Text(_isLoading ? 'Sending...' : 'Send SMS'),
             ),
             const SizedBox(height: 16),
-            Text('Log', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey.shade500)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Log', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey.shade500)),
+                GestureDetector(
+                  onTap: () => _logCtrl.clear(),
+                  child: Text('Clear', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: cs.primary)),
+                ),
+              ],
+            ),
             const SizedBox(height: 6),
             Expanded(child: LogView(controller: _logCtrl)),
           ],

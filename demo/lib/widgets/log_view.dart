@@ -15,6 +15,8 @@ class LogViewController {
     });
   }
 
+  void clear() => _textCtrl.text = '';
+
   void dispose() {
     _textCtrl.dispose();
     _scrollCtrl.dispose();

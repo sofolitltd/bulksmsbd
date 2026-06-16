@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_dotenv: ^5.2.1
-  bulksmsbd: ^1.0.1
+  bulksmsbd: ^1.0.2
 
 dev_dependencies:
   flutter_test:
